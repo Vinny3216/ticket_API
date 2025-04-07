@@ -1,10 +1,10 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Text.Json;
 using System.Threading.Tasks;
 using Azure.Storage.Queues;
-using Microsoft.Extensions.Logging;
 
 namespace ticket_API.Controllers
 {
@@ -64,10 +64,7 @@ namespace ticket_API.Controllers
                 await _ticketQueue.CreateIfNotExistsAsync();
                 await _ticketQueue.SendMessageAsync(base64Msg);
 
-                _log.LogInformation(
-                    "Ticket purchase for concert {ConcertId} queued successfully",
-                    ticketData.ConcertId
-                );
+                _log.LogInformation("Ticket purchase for concert {ConcertId} queued successfully", ticketData.ConcertId);
 
                 return Ok(new
                 {
